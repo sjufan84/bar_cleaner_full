@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bar Emptier</title>
+    <style>
+        /* Add any custom CSS styling here */
+    </style>
+</head>
+<body>
+    <h1>Bar Emptier</h1>
+
+    <form id="cocktail-form">
+        <label for="liquor">Liquor:</label>
+        <input type="text" id="liquor" name="liquor" required>
+        <br>
+
+        <label for="cocktail_type">Cocktail Type:</label>
+        <input type="text" id="cocktail_type" name="cocktail_type" required>
+        <br>
+
+        <label for="cuisine">Cuisine:</label>
+        <input type="text" id="cuisine" name="cuisine" required>
+        <br>
+
+        <label for="theme">Theme:</label>
+        <input type="text" id="theme" name="theme" required>
+        <br>
+
+        <button type="submit">Get Cocktail Recipe</button>
+    </form>
+
+    <div id="recipe-result">
+        <!-- Recipe result will be displayed here -->
+    </div>
+
+    <script>
+        document.getElementById('cocktail-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const liquor = document.getElementById('liquor').value;
+            const cocktail_type = document.getElementById('cocktail_type').value;
+            const cuisine = document.getElementById('cuisine').value;
+            const theme = document.getElementById('theme').value;
+
+            const response = await fetch('http://localhost:8000/get_cocktail_recipe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ liquor, cocktail_type, cuisine, theme }),
+            });
+
+            const recipe = await response.text();
+            document.getElementById('recipe-result').innerText = recipe;
+        });
+    </script>
+</body>
+</html>
